@@ -9,12 +9,12 @@ class FizzBuzz
   end
 
   def convert_fizzbuzz(number)
-    if (number % FIZZ_NUM).zero? && number % BUZZ_NUM != 0
-      puts 'Fizz'
-    elsif number % FIZZ_NUM != 0 && (number % BUZZ_NUM).zero?
-      puts 'Buzz'
-    elsif (number % FIZZ_NUM).zero? && (number % BUZZ_NUM).zero?
+    if (number % FIZZ_NUM).zero? && (number % BUZZ_NUM).zero?
       puts 'FizzBuzz'
+    elsif (number % FIZZ_NUM).zero?
+      puts 'Fizz'
+    elsif (number % BUZZ_NUM).zero?
+      puts 'Buzz'
     else
       puts number
     end

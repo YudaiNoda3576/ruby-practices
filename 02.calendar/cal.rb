@@ -7,16 +7,9 @@ today = Date.today
 
 options = ARGV.getopts("y:", "m:")
 
-year = options['y'].to_i
-month = options['m'].to_i
+year = (options['y'] || today.year).to_i
+month = (options['m'] || today.month).to_i
 
-if year == 0
-  year = today.year
-end
-
-if month == 0
-  month = today.month
-end
 #今月の開始曜日を調べるD
 first_day = Date.new(year, month, 1).wday
 # 当月の最終日を調べる
@@ -30,7 +23,7 @@ first_day.times do
 end
 
 #今月が何週かを確認する
-weeks_count = days_of_month.length / 7
+weeks_count = 4
 weeks_count += 1 if days_of_month.length % 7 > 0
 
 #カレンダータイトルの作成
@@ -45,12 +38,9 @@ puts " " + calender_head.join(" ")
 weeks_count.times do
   #1週分の内容weekにセットする
   week = days_of_month.shift(7)
-  #nilの場合の対処として、空欄を入れる
-  if week[6] == nil
-    week.map { |e| e ? e : " " }
-  end
   #1週分を出力する
-  printf("%3s%3s%3s%3s%3s%3s%3s\n",
-         week[0], week[1], week[2], week[3], week[4], week[5], week[6])
+  week.each_with_index do |w, i|
+    i == 6 ? printf("%3s\n", w) : printf("%3s", w)
+  end
 end
 

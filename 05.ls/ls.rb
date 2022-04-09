@@ -9,7 +9,7 @@ class ListSegments
 
     child_max_length = children.map(&:length).max
 
-    output_row = (children.size % 3).positive? ? children.size / 3 + 1 : children.size / 3
+    output_row = children.size.ceil / 3
 
     sliced_by_row = slice_children_each_row(children, output_row)
 
@@ -42,8 +42,7 @@ class ListSegments
   # @return [Array]
   def sorted_arry_factory(row, sliced_by_row)
     tmp_arry = []
-    i = 0
-    row.times do
+    row.times do |i|
       sliced_by_row.each do |item|
         tmp_arry << item[i]
       end
@@ -55,11 +54,7 @@ class ListSegments
   # @param [Object] arry
   # @return [Array]
   def output_arry_factory(arry)
-    results = []
-    arry.each_slice(MAX_COLUMN) do |items|
-      results << items.map { |item| item }
-    end
-    results
+    arry.each_slice(MAX_COLUMN).map { |items| items.map { |item| item } }
   end
 end
 

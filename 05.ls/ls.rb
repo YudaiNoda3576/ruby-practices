@@ -70,10 +70,8 @@ class ListSegments
   # @return [Array<String>]
   def what_kind_of_option(options)
     flag = 0
-    if options[:a]
-      flag = File::FNM_DOTMATCH
-    end
-    Dir.glob('*', flags: flag, sort:true)
+    flag = File::FNM_DOTMATCH if options[:a]
+    Dir.glob('*', flags: flag, sort: true)
   end
 end
 

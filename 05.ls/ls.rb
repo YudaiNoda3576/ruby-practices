@@ -71,7 +71,7 @@ class ListSegments
   def what_kind_of_option(options)
     flag = 0
     flag = File::FNM_DOTMATCH if options[:a]
-    Dir.glob('*', flags: flag, sort: true)
+    Dir.glob('*', flag)
   end
 end
 

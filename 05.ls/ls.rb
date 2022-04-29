@@ -1,11 +1,20 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
+require 'optparse'
+
 class ListSegments
   MAX_COLUMN = 3
 
   def main
-    children = Dir.glob('*').sort
+    options = {}
+
+    OptionParser.new do |opt|
+      opt.on('-a') { |a| options[:a] = a }
+      opt.parse!(ARGV)
+    end
+
+    children = what_kind_of_option(options)
 
     child_max_length = children.map(&:length).max
 
@@ -55,6 +64,13 @@ class ListSegments
   # @return [Array]
   def output_arry_factory(arry)
     arry.each_slice(MAX_COLUMN).map { |items| items.map { |item| item } }
+  end
+
+  # @param [Object] options
+  # @return [Array<String>]
+  def what_kind_of_option(options)
+    flag = options[:a] ? File::FNM_DOTMATCH : 0
+    Dir.glob('*', flag)
   end
 end
 

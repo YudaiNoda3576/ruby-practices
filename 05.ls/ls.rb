@@ -11,10 +11,11 @@ class ListSegments
 
     OptionParser.new do |opt|
       opt.on('-a') { |a| options[:a] = a }
+      opt.on('-r') { |a| options[:r] = a }
       opt.parse!(ARGV)
     end
 
-    children = what_kind_of_option(options)
+    children = option_handling(options)
 
     child_max_length = children.map(&:length).max
 
@@ -68,9 +69,26 @@ class ListSegments
 
   # @param [Object] options
   # @return [Array<String>]
-  def what_kind_of_option(options)
-    flag = options[:a] ? File::FNM_DOTMATCH : 0
-    Dir.glob('*', flag)
+  def option_handling(options)
+    flag = option_flag_handling(options)
+    result = Dir.glob('*', flag)
+
+    case options
+    when { r: true }
+      result = result.reverse
+    end
+
+    result
+  end
+
+  def option_flag_handling(options)
+    case options
+    when { a: true }
+      flag = File::FNM_DOTMATCH
+    when { r: true }, {}
+      flag = 0
+    end
+    flag
   end
 end
 

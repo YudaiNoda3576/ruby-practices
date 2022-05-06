@@ -72,23 +72,29 @@ class ListSegments
   def option_handling(options)
     flag = option_flag_handling(options)
     result = Dir.glob('*', flag)
-
-    case options
-    when { r: true }
-      result = result.reverse
-    end
-
-    result
+    option_r?(options, result)
   end
 
+
+  # @param [Object] options
+  # @return [Integer]
   def option_flag_handling(options)
-    case options
-    when { a: true }
-      flag = File::FNM_DOTMATCH
-    when { r: true }, {}
-      flag = 0
+    flag = 0
+    options.each_key do |k|
+      case k
+      when :a
+        flag = File::FNM_DOTMATCH
+      end
     end
+
     flag
+  end
+
+  # @param [Object] options
+  # @param [Object] result
+  # @return [Object]
+  def option_r?(options, result)
+    result.reverse if options.key?(:r)
   end
 end
 
